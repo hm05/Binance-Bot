@@ -1,14 +1,7 @@
 #!/usr/bin/env python3
-"""
-OCO (One-Cancels-the-Other) implementation for Binance Futures (simulated).
-This places an entry order (market or limit), then places a take-profit limit
-and a stop-loss STOP_MARKET order, monitoring them and cancelling the loser.
 
-This module uses the project's BasicBot class and avoids importing enum
-constants that may differ between python-binance versions; it uses string
-constants instead.
-"""
 import time
+import threading
 from typing import Dict, Any, Optional, Tuple
 from src.common import BasicBot, logger
 from binance.exceptions import BinanceAPIException
@@ -19,7 +12,6 @@ class OCOOrder:
     def __init__(self, bot: BasicBot):
         self.bot = bot
         self._monitoring = False
-        # Use string literals to avoid enum import issues across versions
         self.ORDER_TYPE_MARKET = 'MARKET'
         self.ORDER_TYPE_LIMIT = 'LIMIT'
         self.ORDER_TYPE_STOP_MARKET = 'STOP_MARKET'
@@ -57,8 +49,7 @@ class OCOOrder:
             type=self.ORDER_TYPE_LIMIT,
             timeInForce=self.TIME_IN_FORCE_GTC,
             quantity=quantity,
-            price=str(tp_price),
-            reduceOnly=True
+            price=str(tp_price)
         )
 
         sl_order = self.bot.client.futures_create_order(
@@ -66,8 +57,7 @@ class OCOOrder:
             side=exit_side,
             type=self.ORDER_TYPE_STOP_MARKET,
             stopPrice=str(sl_price),
-            quantity=quantity,
-            reduceOnly=True
+            quantity=quantity
         )
 
         logger.info(f"TP order: {tp_order}")
@@ -109,10 +99,8 @@ class OCOOrder:
         if not symbol_info:
             raise ValueError(f"Could not retrieve symbol info for {symbol}")
 
-        # place entry
         entry = self._place_entry_order(symbol, side, quantity, entry_type, entry_price)
 
-        # if limit entry, wait until filled
         if entry_type == self.ORDER_TYPE_LIMIT:
             while True:
                 st = self.bot.client.futures_get_order(symbol=symbol, orderId=entry['orderId'])
@@ -121,7 +109,15 @@ class OCOOrder:
                 time.sleep(POLL_INTERVAL)
 
         tp_order, sl_order = self._place_tp_sl_orders(symbol, side, quantity, tp_price, sl_price)
-        # monitor (blocking)
-        self._monitor_orders(symbol, tp_order['orderId'], sl_order['orderId'])
+
+        try:
+            monitor_thread = threading.Thread(
+                target=self._monitor_orders,
+                args=(symbol, tp_order['orderId'], sl_order['orderId']),
+                daemon=True
+            )
+            monitor_thread.start()
+        except Exception as e:
+            logger.error(f"Failed to start OCO monitor thread: {e}")
 
         return {'entry': entry, 'tp': tp_order, 'sl': sl_order}

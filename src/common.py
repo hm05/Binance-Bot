@@ -1,4 +1,5 @@
-# shared utilities for validation, client creation, and logging
+#!/usr/bin/env python3
+
 import os
 import logging
 from typing import Dict, Any, Optional, List
@@ -9,7 +10,6 @@ from binance.exceptions import BinanceAPIException
 import time
 from typing import Union
 
-# Configure logging
 LOG_FILE = os.path.join(os.getcwd(), 'bot.log')
 logging.basicConfig(
     filename=LOG_FILE,
@@ -25,7 +25,6 @@ class BasicBot:
         Supports dry-run mode by setting `dry_run=True` when creating the bot.
         """
         self.dry_run = False
-        # real client will be created on demand if not in dry-run
         self.client: Union[Client, DummyClient, None] = None
         if api_key and api_secret:
             self._api_key = api_key
@@ -35,35 +34,29 @@ class BasicBot:
             self._api_secret = None
         self.testnet = testnet
         logger.info("BasicBot created (client not yet initialized)")
-        # Note: credential check happens when client is initialized (or skipped in dry-run)
 
     def init_client(self, dry_run: bool = False):
         """Initialize the real or dummy client based on dry_run flag."""
         self.dry_run = dry_run
         if dry_run:
-            # lightweight DummyClient for simulation
             self.client = DummyClient()
             logger.info("Initialized DummyClient for dry-run mode")
             return
-        # create real client with testnet configuration
         self.client = Client(self._api_key, self._api_secret)
         if self.testnet:
-            # Configure for demo.binance.com unified testnet
             self.client.API_URL = 'https://testnet.binance.vision/api'
             self.client.FUTURES_API_URL = 'https://testnet.binance.vision/fapi'
             self.client.FUTURES_URL = 'https://testnet.binance.vision'
-            # Enable testnet mode
-            self.client.tld = 'vision'  # Use testnet domain
+            self.client.tld = 'vision'
             self.client.testnet = True
         logger.info("Real Binance client initialized")
-        # quick permission/connectivity check
         try:
             self.client.futures_account_balance()
         except Exception as e:
             logger.error(f"API credential/permission check failed: {e}")
             raise
 
-    # --- Helpers that delegate to the underlying client ---
+
     def get_quantity_precision(self, symbol_info: Dict[str, Any]) -> int:
         return int(symbol_info.get('quantityPrecision', 0))
 
@@ -118,7 +111,6 @@ class DummyClient:
         return [{"asset": "USDT", "balance": "1000.00"}]
 
     def futures_exchange_info(self):
-        # minimal exchange info with BTCUSDT sample symbol and basic filters
         return {
             'symbols': [
                 {
@@ -134,7 +126,6 @@ class DummyClient:
         }
 
     def futures_create_order(self, **kwargs):
-        # simulate an order creation
         self._order_id += 1
         order = {
             'orderId': self._order_id,

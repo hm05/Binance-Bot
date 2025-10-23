@@ -1,28 +1,40 @@
 #!/usr/bin/env python3
 
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 from decimal import Decimal
 from src.common import BasicBot, logger
-from binance.enums import *
 from binance.exceptions import BinanceAPIException
 
-class LimitOrder:
+class StopLimitOrder:
     def __init__(self, bot: BasicBot):
-        """Initialize LimitOrder handler."""
+        """Initialize StopLimitOrder handler."""
         self.bot = bot
-        self.ORDER_TYPE_LIMIT = 'LIMIT'
+        self.ORDER_TYPE_STOP = 'STOP'
+        self.ORDER_TYPE_STOP_LIMIT = 'STOP_LIMIT'
+
+    def _validate_price(self, symbol_info: Dict[str, Any], price: float, stop_price: float) -> tuple[float, float]:
+        """Validate both limit price and stop price."""
+        if price <= 0 or stop_price <= 0:
+            raise ValueError("Price and stop price must be positive")
+            
+        for filter in symbol_info['filters']:
+            if filter['filterType'] == 'PRICE_FILTER':
+                min_price = float(filter['minPrice'])
+                max_price = float(filter['maxPrice'])
+                tick_size = float(filter['tickSize'])
+                
+                if price < min_price or stop_price < min_price:
+                    raise ValueError(f"Price {min(price, stop_price)} below minimum {min_price}")
+                if price > max_price or stop_price > max_price:
+                    raise ValueError(f"Price {max(price, stop_price)} above maximum {max_price}")
+                
+                price = self.bot.round_step_size(price, tick_size)
+                stop_price = self.bot.round_step_size(stop_price, tick_size)
+                
+        return price, stop_price
 
     def _validate_quantity(self, symbol_info: Dict[str, Any], quantity: float) -> float:
-        """
-        Validate and format the order quantity according to symbol rules.
-        
-        Args:
-            symbol_info: Symbol information from Binance
-            quantity: Original quantity
-            
-        Returns:
-            Formatted quantity that meets symbol requirements
-        """
+        """Validate order quantity."""
         if quantity <= 0:
             raise ValueError("Quantity must be positive")
             
@@ -41,53 +53,22 @@ class LimitOrder:
                 
         return quantity
 
-    def _validate_price(self, symbol_info: Dict[str, Any], price: float) -> float:
-        """
-        Validate and format the order price according to symbol rules.
-        
-        Args:
-            symbol_info: Symbol information from Binance
-            price: Original price
-            
-        Returns:
-            Formatted price that meets symbol requirements
-        """
-        if price <= 0:
-            raise ValueError("Price must be positive")
-            
-        for filter in symbol_info['filters']:
-            if filter['filterType'] == 'PRICE_FILTER':
-                min_price = float(filter['minPrice'])
-                max_price = float(filter['maxPrice'])
-                tick_size = float(filter['tickSize'])
-                
-                if price < min_price:
-                    raise ValueError(f"Price {price} below minimum {min_price}")
-                if price > max_price:
-                    raise ValueError(f"Price {price} above maximum {max_price}")
-                
-                price = self.bot.round_step_size(price, tick_size)
-                
-        return price
-
     def place_order(self, symbol: str, side: str, quantity: float, 
-                   price: float, time_in_force: str = 'GTC') -> Dict[str, Any]:
+                   price: float, stop_price: float,
+                   time_in_force: str = 'GTC') -> Dict[str, Any]:
         """
-        Place a limit order on Binance Futures.
+        Place a stop-limit order on Binance Futures.
         
         Args:
             symbol: Trading pair (e.g., 'BTCUSDT')
             side: Order side ('BUY' or 'SELL')
             quantity: Order quantity
-            price: Limit price
+            price: Limit price for the order
+            stop_price: Trigger price to activate the limit order
             time_in_force: Time in force policy ('GTC', 'IOC', or 'FOK')
             
         Returns:
             Dict containing order details from Binance
-            
-        Raises:
-            ValueError: If inputs are invalid
-            BinanceAPIException: If order placement fails
         """
         try:
             symbol = symbol.upper()
@@ -100,7 +81,7 @@ class LimitOrder:
             
             side = self.bot.format_side(side)
             quantity = self._validate_quantity(symbol_info, quantity)
-            price = self._validate_price(symbol_info, price)
+            price, stop_price = self._validate_price(symbol_info, price, stop_price)
             
             time_in_force = time_in_force.upper()
             if time_in_force not in ['GTC', 'IOC', 'FOK']:
@@ -109,21 +90,23 @@ class LimitOrder:
             order = self.bot.client.futures_create_order(
                 symbol=symbol,
                 side=side,
-                type=self.ORDER_TYPE_LIMIT,
+                type='STOP',
                 timeInForce=time_in_force,
                 quantity=quantity,
-                price=str(price)
+                price=str(price),
+                stopPrice=str(stop_price),
+                workingType='MARK_PRICE'
             )
             
-            logger.info(f"Limit order placed successfully: {order}")
+            logger.info(f"Stop-limit order placed successfully: {order}")
             return order
             
         except BinanceAPIException as e:
-            logger.error(f"Binance API error placing limit order: {str(e)}")
+            logger.error(f"Binance API error placing stop-limit order: {str(e)}")
             raise
         except ValueError as e:
             logger.error(f"Validation error: {str(e)}")
             raise
         except Exception as e:
-            logger.error(f"Unexpected error placing limit order: {str(e)}")
+            logger.error(f"Unexpected error placing stop-limit order: {str(e)}")
             raise

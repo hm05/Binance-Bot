@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
-"""
-Market Order implementation for Binance Futures.
-Handles market orders with proper validation and error handling.
-"""
+
 from typing import Dict, Any
 from decimal import Decimal
 from src.common import BasicBot, logger
@@ -29,7 +26,6 @@ class MarketOrder:
         if quantity <= 0:
             raise ValueError("Quantity must be positive")
             
-        # Get symbol filters
         for filter in symbol_info['filters']:
             if filter['filterType'] == 'LOT_SIZE':
                 min_qty = float(filter['minQty'])
@@ -41,7 +37,6 @@ class MarketOrder:
                 if quantity > max_qty:
                     raise ValueError(f"Quantity {quantity} above maximum {max_qty}")
                 
-                # Round to valid step size
                 quantity = self.bot.round_step_size(quantity, step_size)
                 
         return quantity
@@ -63,7 +58,6 @@ class MarketOrder:
             BinanceAPIException: If order placement fails
         """
         try:
-            # Validate symbol and get trading rules
             symbol = symbol.upper()
             if not self.bot.validate_symbol(symbol):
                 raise ValueError(f"Invalid symbol: {symbol}")
@@ -72,11 +66,9 @@ class MarketOrder:
             if not symbol_info:
                 raise ValueError(f"Could not get symbol info for {symbol}")
             
-            # Format and validate inputs
             side = self.bot.format_side(side)
             quantity = self._validate_quantity(symbol_info, quantity)
             
-            # Place the order
             order = self.bot.client.futures_create_order(
                 symbol=symbol,
                 side=side,

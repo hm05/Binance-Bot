@@ -1,7 +1,5 @@
-"""
-Small script to verify Binance Futures Testnet API keys from .env
-Prints the account balance on success or the raw error on failure.
-"""
+#!/usr/bin/env python3
+
 from dotenv import load_dotenv
 import os
 from binance.client import Client
@@ -15,11 +13,10 @@ if not API_KEY or not API_SECRET:
     raise SystemExit(1)
 
 client = Client(API_KEY, API_SECRET)
-# Configure for demo.binance.com unified testnet
 client.API_URL = 'https://testnet.binance.vision/api'
 client.FUTURES_API_URL = 'https://testnet.binance.vision/fapi'
 client.FUTURES_URL = 'https://testnet.binance.vision'
-client.tld = 'vision'  # Use testnet domain
+client.tld = 'vision'
 client.testnet = True
 
 try:
@@ -32,7 +29,6 @@ except Exception as e:
     print('Error while verifying keys:')
     print(err)
 
-    # Provide troubleshooting tips for the common -2015 error
     if '-2015' in err or 'Invalid API-key' in err:
         print('\nDetected Binance API error -2015 (Invalid API-key, IP, or permissions).')
         print('Common causes and fixes:')
