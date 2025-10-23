@@ -1,0 +1,69 @@
+2025-10-23 22:45:08,593 - INFO - Trading bot initialized
+2025-10-23 22:45:08,594 - ERROR - Failed to initialize bot: __init__() missing 1 required positional argument: 'bot'
+2025-10-23 22:45:43,917 - INFO - Trading bot initialized
+2025-10-23 22:45:45,580 - ERROR - Get account balance error: APIError(code=-2015): Invalid API-key, IP, or permissions for action
+2025-10-23 22:46:06,700 - INFO - Trading bot initialized
+2025-10-23 22:46:07,307 - ERROR - Get account balance error: APIError(code=-2015): Invalid API-key, IP, or permissions for action
+2025-10-23 22:47:41,554 - INFO - Trading bot initialized
+2025-10-23 22:47:42,056 - ERROR - Unexpected error placing market order: valid values for rounding are:
+  [ROUND_CEILING, ROUND_FLOOR, ROUND_UP, ROUND_DOWN,
+   ROUND_HALF_UP, ROUND_HALF_DOWN, ROUND_HALF_EVEN,
+   ROUND_05UP]
+2025-10-23 22:47:42,056 - ERROR - Error executing command: valid values for rounding are:
+  [ROUND_CEILING, ROUND_FLOOR, ROUND_UP, ROUND_DOWN,
+   ROUND_HALF_UP, ROUND_HALF_DOWN, ROUND_HALF_EVEN,
+   ROUND_05UP]
+2025-10-23 22:48:56,137 - INFO - Trading bot initialized
+2025-10-23 22:48:56,824 - ERROR - Binance API error placing market order: APIError(code=-2015): Invalid API-key, IP, or permissions for action
+2025-10-23 22:48:56,824 - ERROR - Error executing command: APIError(code=-2015): Invalid API-key, IP, or permissions for action
+2025-10-23 22:49:40,178 - INFO - Trading bot initialized
+2025-10-23 22:49:40,422 - ERROR - API credential/permission check failed: APIError(code=-2015): Invalid API-key, IP, or permissions for action
+2025-10-23 22:49:40,422 - ERROR - Failed to initialize bot: APIError(code=-2015): Invalid API-key, IP, or permissions for action
+2025-10-23 22:54:54,442 - INFO - BasicBot created (client not yet initialized)
+2025-10-23 22:54:54,442 - INFO - Initialized DummyClient for dry-run mode
+2025-10-23 22:55:14,790 - INFO - BasicBot created (client not yet initialized)
+2025-10-23 22:55:14,791 - INFO - Initialized DummyClient for dry-run mode
+2025-10-23 22:55:14,792 - ERROR - Unexpected error placing market order: 'BasicBot' object has no attribute 'validate_symbol'
+2025-10-23 22:55:14,792 - ERROR - Error executing command: 'BasicBot' object has no attribute 'validate_symbol'
+2025-10-23 22:56:14,441 - INFO - BasicBot created (client not yet initialized)
+2025-10-23 22:56:14,441 - INFO - Initialized DummyClient for dry-run mode
+2025-10-23 22:56:14,442 - INFO - Market order placed successfully: {'orderId': 100001, 'symbol': 'BTCUSDT', 'side': 'BUY', 'type': 'MARKET', 'origQty': '0.001', 'price': '', 'status': 'NEW'}
+2025-10-23 23:20:37,970 - INFO - BasicBot created (client not yet initialized)
+2025-10-23 23:20:38,240 - INFO - Real Binance client initialized
+2025-10-23 23:20:38,916 - ERROR - API credential/permission check failed: APIError(code=-2015): Invalid API-key, IP, or permissions for action
+2025-10-23 23:20:38,916 - ERROR - Failed to initialize client: APIError(code=-2015): Invalid API-key, IP, or permissions for action
+2025-10-23 23:23:18,337 - INFO - BasicBot created (client not yet initialized)
+2025-10-23 23:23:18,600 - INFO - Real Binance client initialized
+2025-10-23 23:23:18,854 - ERROR - API credential/permission check failed: APIError(code=-2015): Invalid API-key, IP, or permissions for action
+2025-10-23 23:23:18,854 - ERROR - Failed to initialize client: APIError(code=-2015): Invalid API-key, IP, or permissions for action
+2025-10-23 23:44:05,338 - INFO - BasicBot created (client not yet initialized)
+2025-10-23 23:44:05,339 - INFO - Initialized DummyClient for dry-run mode
+2025-10-23 23:44:17,725 - INFO - BasicBot created (client not yet initialized)
+2025-10-23 23:44:17,726 - INFO - Initialized DummyClient for dry-run mode
+2025-10-23 23:44:17,727 - INFO - Market order placed successfully: {'orderId': 100001, 'symbol': 'BTCUSDT', 'side': 'BUY', 'type': 'MARKET', 'origQty': '0.001', 'price': '', 'status': 'NEW'}
+2025-10-23 23:44:50,579 - INFO - BasicBot created (client not yet initialized)
+2025-10-23 23:44:50,580 - INFO - Initialized DummyClient for dry-run mode
+2025-10-23 23:44:50,581 - INFO - Limit order placed successfully: {'orderId': 100001, 'symbol': 'BTCUSDT', 'side': 'BUY', 'type': 'LIMIT', 'origQty': '0.001', 'price': '50000.0', 'status': 'NEW'}
+2025-10-23 23:45:03,366 - INFO - BasicBot created (client not yet initialized)
+2025-10-23 23:45:03,366 - INFO - Initialized DummyClient for dry-run mode
+2025-10-23 23:45:03,367 - INFO - Entry order placed: {'orderId': 100001, 'symbol': 'BTCUSDT', 'side': 'BUY', 'type': 48900.0, 'origQty': '0.001', 'price': '', 'status': 'NEW'}
+2025-10-23 23:45:03,367 - INFO - TP order: {'orderId': 100002, 'symbol': 'BTCUSDT', 'side': 'SELL', 'type': 'LIMIT', 'origQty': '0.001', 'price': '50000.0', 'status': 'NEW'}
+2025-10-23 23:45:03,367 - INFO - SL order: {'orderId': 100003, 'symbol': 'BTCUSDT', 'side': 'SELL', 'type': 'STOP_MARKET', 'origQty': '0.001', 'price': '', 'status': 'NEW'}
+2025-10-23 23:45:03,367 - INFO - TP filled; cancelled SL
+2025-10-23 23:59:52,513 - INFO - BasicBot created (client not yet initialized)
+2025-10-23 23:59:52,773 - INFO - Real Binance client initialized
+2025-10-23 23:59:54,159 - INFO - Market order placed successfully: {'orderId': 6784667114, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'x-Cb7ytekJ941bf63600595c734107d0', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.001', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1761244194085}
+2025-10-24 00:00:20,069 - INFO - BasicBot created (client not yet initialized)
+2025-10-24 00:00:20,326 - INFO - Real Binance client initialized
+2025-10-24 00:01:38,610 - INFO - BasicBot created (client not yet initialized)
+2025-10-24 00:01:38,871 - INFO - Real Binance client initialized
+2025-10-24 00:01:50,063 - INFO - BasicBot created (client not yet initialized)
+2025-10-24 00:01:50,320 - INFO - Real Binance client initialized
+2025-10-24 00:01:51,273 - INFO - Market order placed successfully: {'orderId': 6784899940, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'x-Cb7ytekJ3ced1910c16cf9b75627b2', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.001', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1761244311200}
+2025-10-24 00:02:01,531 - INFO - BasicBot created (client not yet initialized)
+2025-10-24 00:02:01,788 - INFO - Real Binance client initialized
+2025-10-24 00:02:02,752 - ERROR - Binance API error placing limit order: APIError(code=-4024): Limit price can't be lower than 104956.
+2025-10-24 00:02:02,753 - ERROR - Error executing command: APIError(code=-4024): Limit price can't be lower than 104956.
+2025-10-24 00:02:28,540 - INFO - BasicBot created (client not yet initialized)
+2025-10-24 00:02:28,800 - INFO - Real Binance client initialized
+2025-10-24 00:02:30,649 - INFO - Limit order placed successfully: {'orderId': 6784976206, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'x-Cb7ytekJa61dfb1b2500ab26dda92b', 'price': '105000.00', 'avgPrice': '0.00', 'origQty': '0.001', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'LIMIT', 'reduceOnly': False, 'closePosition': False, 'side': 'SELL', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'LIMIT', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1761244350578}
