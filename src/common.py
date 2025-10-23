@@ -45,10 +45,23 @@ class BasicBot:
             self.client = DummyClient()
             logger.info("Initialized DummyClient for dry-run mode")
             return
+<<<<<<< HEAD
         # create real client
         self.client = Client(self._api_key, self._api_secret)
         if self.testnet:
             self.client.API_URL = 'https://testnet.binancefuture.com/fapi/v1'
+=======
+        # create real client with testnet configuration
+        self.client = Client(self._api_key, self._api_secret)
+        if self.testnet:
+            # Configure for demo.binance.com unified testnet
+            self.client.API_URL = 'https://testnet.binance.vision/api'
+            self.client.FUTURES_API_URL = 'https://testnet.binance.vision/fapi'
+            self.client.FUTURES_URL = 'https://testnet.binance.vision'
+            # Enable testnet mode
+            self.client.tld = 'vision'  # Use testnet domain
+            self.client.testnet = True
+>>>>>>> new
         logger.info("Real Binance client initialized")
         # quick permission/connectivity check
         try:

@@ -15,8 +15,17 @@ if not API_KEY or not API_SECRET:
     raise SystemExit(1)
 
 client = Client(API_KEY, API_SECRET)
+<<<<<<< HEAD
 # Ensure futures testnet base URL
 client.API_URL = 'https://testnet.binancefuture.com/fapi/v1'
+=======
+# Configure for demo.binance.com unified testnet
+client.API_URL = 'https://testnet.binance.vision/api'
+client.FUTURES_API_URL = 'https://testnet.binance.vision/fapi'
+client.FUTURES_URL = 'https://testnet.binance.vision'
+client.tld = 'vision'  # Use testnet domain
+client.testnet = True
+>>>>>>> new
 
 try:
     balances = client.futures_account_balance()
