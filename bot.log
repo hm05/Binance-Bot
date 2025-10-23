@@ -28,8 +28,6 @@
 2025-10-23 22:56:14,441 - INFO - BasicBot created (client not yet initialized)
 2025-10-23 22:56:14,441 - INFO - Initialized DummyClient for dry-run mode
 2025-10-23 22:56:14,442 - INFO - Market order placed successfully: {'orderId': 100001, 'symbol': 'BTCUSDT', 'side': 'BUY', 'type': 'MARKET', 'origQty': '0.001', 'price': '', 'status': 'NEW'}
-<<<<<<< HEAD
-=======
 2025-10-23 23:20:37,970 - INFO - BasicBot created (client not yet initialized)
 2025-10-23 23:20:38,240 - INFO - Real Binance client initialized
 2025-10-23 23:20:38,916 - ERROR - API credential/permission check failed: APIError(code=-2015): Invalid API-key, IP, or permissions for action
@@ -69,4 +67,3 @@
 2025-10-24 00:02:28,540 - INFO - BasicBot created (client not yet initialized)
 2025-10-24 00:02:28,800 - INFO - Real Binance client initialized
 2025-10-24 00:02:30,649 - INFO - Limit order placed successfully: {'orderId': 6784976206, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'x-Cb7ytekJa61dfb1b2500ab26dda92b', 'price': '105000.00', 'avgPrice': '0.00', 'origQty': '0.001', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'LIMIT', 'reduceOnly': False, 'closePosition': False, 'side': 'SELL', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'LIMIT', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1761244350578}
->>>>>>> new
